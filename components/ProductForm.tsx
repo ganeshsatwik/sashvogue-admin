@@ -36,6 +36,7 @@ export default function ProductForm({ initialData, productId }: ProductFormProps
   const [price, setPrice] = useState(initialData?.price || 0);
   const [compareAtPrice, setCompareAtPrice] = useState(initialData?.compareAtPrice || 0);
   const [stock, setStock] = useState(initialData?.stock || 0);
+  const [shippingCharge, setShippingCharge] = useState(initialData?.shippingCharge || 0);
   const [category, setCategory] = useState(initialData?.category?._id || initialData?.category || '');
   const [status, setStatus] = useState<string>(initialData?.status || 'draft');
   
@@ -156,6 +157,7 @@ export default function ProductForm({ initialData, productId }: ProductFormProps
       price: Number(price),
       compareAtPrice: compareAtPrice ? Number(compareAtPrice) : undefined,
       stock: Number(stock),
+      shippingCharge: Number(shippingCharge),
       category,
       images,
       variants: finalVariants,
@@ -238,7 +240,7 @@ export default function ProductForm({ initialData, productId }: ProductFormProps
           <div className="p-4 border border-gray-200 rounded space-y-4">
             <h3 className="text-[10px] font-bold uppercase tracking-wider text-gray-900 border-b border-gray-100 pb-2">Pricing & Inventory</h3>
             
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div>
                 <label className="block text-[10px] font-bold uppercase mb-1">Price (₹)</label>
                 <input
@@ -271,6 +273,17 @@ export default function ProductForm({ initialData, productId }: ProductFormProps
                   className="w-full rounded border border-gray-300 bg-white px-3 py-1.5 focus:border-black focus:outline-none"
                   value={stock}
                   onChange={(e) => setStock(Number(e.target.value))}
+                />
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-bold uppercase mb-1">Shipping Charge (₹)</label>
+                <input
+                  type="number"
+                  min={0}
+                  className="w-full rounded border border-gray-300 bg-white px-3 py-1.5 focus:border-black focus:outline-none"
+                  value={shippingCharge}
+                  onChange={(e) => setShippingCharge(Number(e.target.value))}
                 />
               </div>
             </div>

@@ -32,7 +32,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { name, description, price, compareAtPrice, stock, category, images, variants, paymentMethods, status } =
+    const { name, description, price, compareAtPrice, stock, category, images, variants, paymentMethods, status, shippingCharge } =
       await request.json();
 
     await connectDB();
@@ -49,6 +49,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
         variants,
         paymentMethods,
         status,
+        shippingCharge,
       },
       { new: true }
     );

@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { name, description, price, compareAtPrice, stock, category, images, variants, paymentMethods, status } =
+    const { name, description, price, compareAtPrice, stock, category, images, variants, paymentMethods, status, shippingCharge } =
       await request.json();
 
     if (!name || typeof price !== 'number' || typeof stock !== 'number' || !category) {
@@ -45,6 +45,7 @@ export async function POST(request: NextRequest) {
       variants: variants || [],
       paymentMethods: paymentMethods || ['UPI', 'COD'],
       status: status || 'draft',
+      shippingCharge: shippingCharge || 0,
       ratings: 0,
       numReviews: 0,
     });

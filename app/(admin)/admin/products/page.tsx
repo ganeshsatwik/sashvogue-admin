@@ -4,6 +4,8 @@ import Product from '@/lib/models/Product';
 import '@/lib/models/Category';
 import Link from 'next/link';
 import { Plus, Edit, Search } from 'lucide-react';
+import { revalidatePath } from 'next/cache';
+import DeleteForm from './DeleteForm';
 
 interface PageProps {
   searchParams: Promise<{ q?: string; category?: string; status?: string }>;
@@ -15,6 +17,15 @@ export default async function ProductsListPage({ searchParams }: PageProps) {
   const statusFilter = params.status || '';
 
   await connectDB();
+
+  async function deleteProduct(formData: FormData) {
+    'use server';
+    const id = formData.get('id') as string;
+    if (!id) return;
+    await connectDB();
+    await Product.findByIdAndDelete(id);
+    revalidatePath('/admin/products');
+  }
 
   // Build MongoDB query filters
   const filterQuery: any = {};
@@ -130,13 +141,14 @@ export default async function ProductsListPage({ searchParams }: PageProps) {
                       {prod.status}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-right">
+                  <td className="px-6 py-4 text-right flex justify-end gap-2">
                     <Link
                       href={`/admin/products/${prod._id.toString()}`}
                       className="inline-flex items-center gap-0.5 bg-black hover:bg-gray-800 text-white font-bold py-1 px-2.5 rounded uppercase text-[9px] tracking-wide cursor-pointer"
                     >
                       <Edit size={10} /> Edit
                     </Link>
+                    <DeleteForm id={prod._id.toString()} action={deleteProduct} />
                   </td>
                 </tr>
               ))}

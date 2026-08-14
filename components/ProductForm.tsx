@@ -132,6 +132,24 @@ export default function ProductForm({ initialData, productId }: ProductFormProps
       return;
     }
 
+    // Auto-add any pending variant in the input fields
+    let finalVariants = [...variants];
+    if (varSize.trim() && varColor.trim() && varSku.trim()) {
+      finalVariants.push({
+        size: varSize.trim(),
+        color: varColor.trim(),
+        sku: varSku.trim(),
+        stock: varStock,
+        price: varPrice === '' ? undefined : Number(varPrice)
+      });
+      // Optionally reset them
+      setVarSize('');
+      setVarColor('');
+      setVarSku('');
+      setVarPrice('');
+      setVarStock(0);
+    }
+
     const payload = {
       name,
       description,
@@ -140,7 +158,7 @@ export default function ProductForm({ initialData, productId }: ProductFormProps
       stock: Number(stock),
       category,
       images,
-      variants,
+      variants: finalVariants,
       paymentMethods,
       status,
     };

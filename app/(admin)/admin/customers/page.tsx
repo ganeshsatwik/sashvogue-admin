@@ -7,7 +7,7 @@ interface Customer {
   _id: string;
   name: string;
   email: string;
-  phone?: string;
+  phoneNumber?: string;
   orderCount?: number;
   createdAt: string;
 }
@@ -44,7 +44,7 @@ export default function CustomersPage() {
     const query = searchQuery.toLowerCase();
     const nameMatch = c.name.toLowerCase().includes(query);
     const emailMatch = c.email.toLowerCase().includes(query);
-    const phoneMatch = c.phone ? c.phone.includes(query) : false;
+    const phoneMatch = c.phoneNumber ? c.phoneNumber.includes(query) : false;
     return nameMatch || emailMatch || phoneMatch;
   });
 
@@ -113,7 +113,7 @@ export default function CustomersPage() {
                         cust.email
                       )}
                     </td>
-                    <td className="px-6 py-4 font-mono">{cust.phone || '-'}</td>
+                    <td className="px-6 py-4 font-mono">{cust.phoneNumber || '-'}</td>
                     <td className="px-6 py-4">
                       {cust.orderCount !== undefined ? (
                         <span className="inline-flex items-center justify-center bg-gray-100 text-gray-800 text-[10px] font-bold px-2 py-1 rounded-full">

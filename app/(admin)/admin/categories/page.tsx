@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Plus, Check, Loader2, Search } from 'lucide-react';
+import { Plus, Check, Loader2, Search, Trash2 } from 'lucide-react';
 
 interface Category {
   _id: string;
@@ -56,6 +56,24 @@ export default function CategoriesPage() {
       .replace(/[\s_-]+/g, '-') // Replace spaces with hyphens
       .replace(/^-+|-+$/g, ''); // Trim hyphens
     setSlug(generatedSlug);
+  };
+
+  const handleDelete = async (id: string, name: string) => {
+    if (!confirm(`Are you sure you want to delete the category '${name}'?`)) return;
+    
+    try {
+      const res = await fetch(`/api/categories?id=${id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      
+      if (!res.ok) throw new Error(data.error);
+      
+      setFeedback(`Category '${name}' deleted successfully.`);
+      fetchCategories();
+    } catch (err: any) {
+      setError(err.message || 'Failed to delete category.');
+    }
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
@@ -138,6 +156,7 @@ export default function CategoriesPage() {
                     <th className="px-6 py-3">Slug</th>
                     <th className="px-6 py-3">Description</th>
                     <th className="px-6 py-3">Parent Category</th>
+                    <th className="px-6 py-3 text-right">Action</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white text-gray-600 font-medium">
@@ -152,6 +171,15 @@ export default function CategoriesPage() {
                         <td className="px-6 py-4 font-mono text-[10px] text-gray-500">{cat.slug}</td>
                         <td className="px-6 py-4 max-w-[200px] truncate">{cat.description || '-'}</td>
                         <td className="px-6 py-4">{parentName}</td>
+                        <td className="px-6 py-4 text-right">
+                          <button
+                            onClick={() => handleDelete(cat._id, cat.name)}
+                            className="text-red-600 hover:text-red-800 p-1 rounded hover:bg-red-50 transition-colors inline-block"
+                            title="Delete Category"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </td>
                       </tr>
                     );
                   })}

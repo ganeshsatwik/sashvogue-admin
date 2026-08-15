@@ -71,6 +71,19 @@ export default function HomepageSettings() {
             {config.categories.map((cat: any, idx: number) => (
               <div key={idx} className="space-y-3 bg-gray-50 p-4 rounded border border-gray-100">
                 <div>
+                  <label className="block text-[10px] font-bold text-gray-500 uppercase">Link URL Path (Slug)</label>
+                  <input
+                    type="text"
+                    value={cat.key}
+                    onChange={(e) => {
+                      const newCat = [...config.categories];
+                      newCat[idx].key = e.target.value;
+                      setConfig({ ...config, categories: newCat });
+                    }}
+                    className="w-full mt-1 px-3 py-2 text-xs border border-gray-300 rounded focus:border-black focus:outline-none mb-3"
+                  />
+                </div>
+                <div>
                   <label className="block text-[10px] font-bold text-gray-500 uppercase">Label</label>
                   <input
                     type="text"
@@ -128,6 +141,15 @@ export default function HomepageSettings() {
                   className="w-full mt-1 px-3 py-2 text-xs border border-gray-300 rounded focus:border-black focus:outline-none min-h-[80px]"
                 />
               </div>
+              <div>
+                <label className="block text-[10px] font-bold text-gray-500 uppercase">Link URL</label>
+                <input
+                  type="text"
+                  value={config.newSeason.linkUrl || ''}
+                  onChange={(e) => setConfig({ ...config, newSeason: { ...config.newSeason, linkUrl: e.target.value } })}
+                  className="w-full mt-1 px-3 py-2 text-xs border border-gray-300 rounded focus:border-black focus:outline-none"
+                />
+              </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
@@ -175,6 +197,15 @@ export default function HomepageSettings() {
                   value={config.promo.code}
                   onChange={(e) => setConfig({ ...config, promo: { ...config.promo, code: e.target.value } })}
                   className="w-full mt-1 px-3 py-2 text-xs border border-gray-300 rounded focus:border-black focus:outline-none uppercase"
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] font-bold text-gray-500 uppercase">Link URL</label>
+                <input
+                  type="text"
+                  value={config.promo.linkUrl || ''}
+                  onChange={(e) => setConfig({ ...config, promo: { ...config.promo, linkUrl: e.target.value } })}
+                  className="w-full mt-1 px-3 py-2 text-xs border border-gray-300 rounded focus:border-black focus:outline-none"
                 />
               </div>
             </div>
@@ -235,6 +266,15 @@ export default function HomepageSettings() {
                   type="text"
                   value={config.about.instagramUrl}
                   onChange={(e) => setConfig({ ...config, about: { ...config.about, instagramUrl: e.target.value } })}
+                  className="w-full mt-1 px-3 py-2 text-xs border border-gray-300 rounded focus:border-black focus:outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] font-bold text-gray-500 uppercase">Our Story Link URL</label>
+                <input
+                  type="text"
+                  value={config.about.linkUrl || ''}
+                  onChange={(e) => setConfig({ ...config, about: { ...config.about, linkUrl: e.target.value } })}
                   className="w-full mt-1 px-3 py-2 text-xs border border-gray-300 rounded focus:border-black focus:outline-none"
                 />
               </div>
